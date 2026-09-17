@@ -7,6 +7,9 @@ on:
   pull_request:
   workflow_dispatch:
 
+permissions:
+  contents: write
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -45,3 +48,18 @@ jobs:
           name: build-reports
           path: build/reports/
           if-no-files-found: ignore
+
+      # actions/upload-artifact's download URL is Azure Blob Storage, which is not reachable
+      # from every network. A GitHub Release asset serves from github.com/api.github.com
+      # instead, so this is the reliable way to actually hand someone the built jar.
+      - name: Publish jar as a release asset
+        if: github.event_name == 'push'
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: latest-build
+          name: Latest build (${{ github.sha }})
+          prerelease: true
+          body: Automated build from commit ${{ github.sha }}.
+          files: build/libs/*.jar
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
