@@ -49,19 +49,9 @@ Requires JDK 17.
 
 The output jar is written to `build/libs/toolscreen-0.1.0.jar`.
 
-### ⚠️ Important: not build-verified in this environment
-
-This project was scaffolded in a sandboxed environment where `maven.fabricmc.net` and Mojang's
-asset/library servers are network-blocked, so `./gradlew build` could **not** be run
-end-to-end here to confirm it compiles. The Yarn-mapped class/method names used in
-`ToolscreenClient.java` (`DrawableHelper.fill`, `GameOptions.fov`, `MinecraftClient.currentScreen`,
-etc.) were written from memory against 1.16.1-era Fabric/Yarn conventions and are believed
-correct, but haven't been compiler-checked. Please run `./gradlew build` on a machine with normal
-internet access and send back any compile errors — they should be small (renamed
-class/method) fixes, not a redesign.
-
-If the build fails on the Loom/Yarn/Fabric API version numbers themselves (`gradle.properties`),
-check https://fabricmc.net/develop for current values and bump them there.
+Build status is verified by CI (`.github/workflows/build.yml`) on every push — see the
+[latest build's release assets](https://github.com/adamarmanyos-max/Toolscreen-IOS/releases/tag/latest-build)
+for a ready-to-use jar without building locally.
 
 ## Installing on Amethyst-iOS
 
