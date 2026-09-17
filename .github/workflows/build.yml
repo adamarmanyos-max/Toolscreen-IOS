@@ -13,11 +13,16 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Set up JDK 17
+      # Fabric Loom's own Gradle plugin requires JVM 21 to run, even though the mod
+      # itself is compiled for Java 17 (see java.toolchain in build.gradle). Installing
+      # both lets Gradle run on 21 while its toolchain resolver picks up 17 for javac.
+      - name: Set up JDKs
         uses: actions/setup-java@v4
         with:
           distribution: temurin
-          java-version: 17
+          java-version: |
+            17
+            21
 
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
