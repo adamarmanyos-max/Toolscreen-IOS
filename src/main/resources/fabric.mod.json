@@ -1,0 +1,24 @@
+{
+	"schemaVersion": 1,
+	"id": "toolscreen",
+	"version": "${version}",
+	"name": "Toolscreen",
+	"description": "Speedrunning zoom + alignment-guide overlay, reimplemented as a Fabric mod for Amethyst-iOS (Java Edition on iOS).",
+	"authors": [
+		"adamarmanyos8"
+	],
+	"contact": {},
+	"license": "MIT",
+	"environment": "client",
+	"entrypoints": {
+		"client": [
+			"net.toolscreen.ToolscreenClient"
+		]
+	},
+	"mixins": [],
+	"depends": {
+		"fabricloader": ">=0.19.0",
+		"fabric": "*",
+		"minecraft": "1.16.1"
+	}
+}
