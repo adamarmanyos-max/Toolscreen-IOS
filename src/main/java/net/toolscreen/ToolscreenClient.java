@@ -6,7 +6,7 @@ import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
 import net.fabricmc.fabric.api.client.rendering.v1.HudRenderCallback;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawableHelper;
-import net.minecraft.client.option.KeyBinding;
+import net.minecraft.client.options.KeyBinding;
 import net.minecraft.client.util.InputUtil;
 import net.minecraft.client.util.Window;
 import net.minecraft.client.util.math.MatrixStack;
@@ -27,7 +27,7 @@ public class ToolscreenClient implements ClientModInitializer {
 	private KeyBinding cyclePresetKey;
 
 	private boolean zooming = false;
-	private int savedFov = -1;
+	private double savedFov = -1;
 
 	@Override
 	public void onInitializeClient() {
