@@ -22,3 +22,6 @@ classes/
 
 # fabric
 run/
+
+# downloaded release artifacts, not source
+dist/
