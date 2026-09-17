@@ -5,7 +5,10 @@ plugins {
 
 version = project.mod_version
 group = project.maven_group
-archivesBaseName = project.archives_base_name
+
+base {
+	archivesName = project.archives_base_name
+}
 
 repositories {
 	// Add repositories to retrieve artifacts from in here.
@@ -40,6 +43,6 @@ processResources {
 
 tasks.jar {
 	from("LICENSE") {
-		rename { "${it}_${project.archivesBaseName}" }
+		rename { "${it}_${project.archives_base_name}" }
 	}
 }
