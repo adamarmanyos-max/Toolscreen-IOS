@@ -1,0 +1,27 @@
+# gradle
+.gradle/
+build/
+out/
+classes/
+
+# eclipse
+*.launch
+
+# idea
+.idea/
+*.iml
+*.ipr
+*.iws
+
+# vscode
+.vscode/
+.factorypath
+
+# macOS
+.DS_Store
+
+# fabric
+run/
+
+# downloaded release artifacts, not source
+dist/

@@ -1,0 +1,65 @@
+name: Build
+
+on:
+  push:
+    branches:
+      - '**'
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      # Fabric Loom's own Gradle plugin requires JVM 21 to run, even though the mod
+      # itself is compiled for Java 17 (see java.toolchain in build.gradle). Installing
+      # both lets Gradle run on 21 while its toolchain resolver picks up 17 for javac.
+      - name: Set up JDKs
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: |
+            17
+            21
+
+      - name: Grant execute permission for gradlew
+        run: chmod +x gradlew
+
+      - name: Build
+        run: ./gradlew build --stacktrace
+
+      - name: Upload jar
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: toolscreen-jar
+          path: build/libs/*.jar
+          if-no-files-found: warn
+
+      - name: Upload build reports
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: build-reports
+          path: build/reports/
+          if-no-files-found: ignore
+
+      # actions/upload-artifact's download URL is Azure Blob Storage, which is not reachable
+      # from every network. A GitHub Release asset serves from github.com/api.github.com
+      # instead, so this is the reliable way to actually hand someone the built jar.
+      - name: Publish jar as a release asset
+        if: github.event_name == 'push'
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: latest-build
+          name: Latest build (${{ github.sha }})
+          prerelease: true
+          body: Automated build from commit ${{ github.sha }}.
+          files: build/libs/*.jar
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
